@@ -14,7 +14,8 @@ are no user IDs, no IP addresses and no device fingerprints.
 - **Built for apps:** purchases, version adoption, days since install, breakdowns by OS,
   country and device, and panels for each app's own events.
 
-Made by the developer of [Code Viewer](https://apps.apple.com/app/apple-store/id756979450?pt=122485603&ct=skorostats&mt=8).
+Made by the developer of [Code Viewer](https://apps.apple.com/app/apple-store/id756979450?pt=122485603&ct=skorostats&mt=8). Why I built it, and what it showed
+about my own app: [a skipped paywall, a broken rating prompt and six file types](https://skoroapps.com/blog/skoro-stats/).
 
 ![The dashboard for one app: sessions, first launches, paywalls and purchases with the change against the period before, a sessions chart, sessions by day and the onboarding funnel](docs/dashboard.png)
 
