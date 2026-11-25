@@ -1,0 +1,33 @@
+# The dashboard Worker. It needs a login, one of:
+#   - Cloudflare Access (Zero Trust): set TEAM_DOMAIN and ACCESS_AUD below; the Worker checks
+#     the Access token too, so switching Access off by mistake doesn't open the numbers.
+#   - A password: `npx wrangler secret put DASHBOARD_PASSWORD -c config/wrangler.dashboard.toml`
+#     (12 characters or more). Ignored while Access is set.
+# Until one is set up the dashboard answers 503.
+name = "skoro-stats-dashboard"
+main = "../src/dashboard.js"
+compatibility_date = "2025-09-01"
+workers_dev = true
+preview_urls = false
+# routes = [{ pattern = "stats.example.com", custom_domain = true }]
+
+[vars]
+# The ingest Worker's address, shown on an empty dashboard (npm run setup fills it in).
+INGEST_URL = ""
+# TEAM_DOMAIN = "<team>.cloudflareaccess.com"
+# ACCESS_AUD = "<the Access application's audience tag>"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "skoro-stats"
+database_id = "REPLACE_WITH_DATABASE_ID"
+migrations_dir = "../migrations"
+
+# Login tries: 5 per minute per address (the password login only).
+[[ratelimits]]
+name = "LIMITER"
+namespace_id = "1002"
+simple = { limit = 5, period = 60 }
+
+[observability]
+enabled = false

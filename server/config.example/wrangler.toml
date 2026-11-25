@@ -1,0 +1,31 @@
+# The ingest Worker: the apps send to https://<this Worker>/v1/events.
+# `npm run setup` fills in database_id; deploy with `npm run deploy` from server/.
+name = "skoro-stats"
+main = "../src/ingest.js"
+compatibility_date = "2025-09-01"
+workers_dev = true
+preview_urls = false
+# A custom domain (optional; *.workers.dev is blocked in some countries, mainland China among them):
+# routes = [{ pattern = "ingest.example.com", custom_domain = true }]
+
+# Secret, set with `npx wrangler secret put APP_KEYS -c config/wrangler.toml`:
+# {"example": "<the key the app sends>"}
+
+[[d1_databases]]
+binding = "DB"
+database_name = "skoro-stats"
+database_id = "REPLACE_WITH_DATABASE_ID"
+migrations_dir = "../migrations"
+
+# 30 requests per 10 seconds per address; the address isn't stored anywhere.
+[[ratelimits]]
+name = "LIMITER"
+namespace_id = "1001"
+simple = { limit = 30, period = 10 }
+
+# Daily: deletes events older than 13 months.
+[triggers]
+crons = ["23 4 * * *"]
+
+[observability]
+enabled = false

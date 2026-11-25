@@ -1,0 +1,10 @@
+.DS_Store
+.build/
+.swiftpm/
+node_modules/
+.wrangler/
+.dev.vars
+*.env
+
+# Each instance's own apps, schemas and wrangler files (server/config.example is the template).
+server/config/

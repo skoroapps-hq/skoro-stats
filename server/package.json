@@ -1,0 +1,24 @@
+{
+  "name": "skoro-stats",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --conditions=skoro-test --no-warnings --test \"test/*.test.js\" \"config/test/*.test.js\"",
+    "setup": "node scripts/setup.mjs",
+    "deploy": "wrangler d1 migrations apply DB --remote -c config/wrangler.toml && wrangler deploy -c config/wrangler.toml && wrangler deploy -c config/wrangler.dashboard.toml",
+    "demo": "node --conditions=skoro-demo --no-warnings scripts/demo/serve.mjs"
+  },
+  "imports": {
+    "#apps": {
+      "skoro-test": "./test/apps.js",
+      "skoro-demo": "./scripts/demo/apps.js",
+      "default": "./config/apps.js"
+    }
+  },
+  "engines": {
+    "node": ">=22.5"
+  },
+  "devDependencies": {
+    "wrangler": "4.168.0"
+  }
+}

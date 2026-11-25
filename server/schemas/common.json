@@ -1,0 +1,12 @@
+{
+  "first_run": { "kind": "*" },
+  "onboarding_step": { "step": "*" },
+  "paywall_shown": { "context": "*" },
+  "paywall_closed": { "context": "*", "seconds": ["0-3", "3-10", "10-30", "30+"] },
+  "purchase": { "product": "*", "context": "*", "outcome": ["purchased", "pending", "cancelled", "failed"] },
+  "restore": { "outcome": ["restored", "nothing", "failed"] },
+  "trial_reminder": { "on": ["0", "1"] },
+  "locked_tap": { "feature": "*" },
+  "review_prompt": { "trigger": "*" },
+  "session_start": { "days": ["0", "1", "2-7", "8-30", "31+"] }
+}
