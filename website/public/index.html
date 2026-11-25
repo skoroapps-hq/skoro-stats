@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>skoro-stats: privacy-first app analytics, free on Cloudflare</title>
+<meta name="description" content="Self-hosted usage statistics for iOS and Android apps: onboarding funnels and paywall conversion, with no user IDs, no IP addresses and no device fingerprints. Runs on Cloudflare's free plan.">
+<link rel="canonical" href="https://skorostats.com/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://skorostats.com/">
+<meta property="og:title" content="skoro-stats: privacy-first app analytics, free on Cloudflare">
+<meta property="og:description" content="Onboarding funnels and paywall conversion for iOS and Android apps, with no personal data. Self-hosted on Cloudflare's free plan.">
+<meta property="og:image" content="https://skorostats.com/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231f6feb'/%3E%3Cpath d='M8 22l5-6 4 3 7-9' stroke='white' stroke-width='3' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<style>
+:root {
+  color-scheme: light dark;
+  --fg: #1d1d1f; --muted: #5c6370; --bg: #f5f6f8; --card: #fff; --line: #dde1e6;
+  --accent: #1f6feb; --accent-fg: #fff; --code: #f0f2f5;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --fg: #f2f3f5; --muted: #9aa1ab; --bg: #0d1014; --card: #161b22; --line: #2a313b; --accent: #4c8dff; --code: #1c222b; }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--fg); font: 17px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+a { color: var(--accent); }
+.wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+nav { display: flex; align-items: center; justify-content: space-between; padding: 22px 0; }
+.brand { font-weight: 700; font-size: 19px; color: var(--fg); text-decoration: none; letter-spacing: -0.01em; }
+nav .links a { color: var(--muted); text-decoration: none; margin-left: 22px; font-size: 15px; }
+nav .links a:hover { color: var(--fg); }
+header { padding: 48px 0 36px; max-width: 760px; }
+h1 { font-size: clamp(34px, 5.4vw, 54px); line-height: 1.08; letter-spacing: -0.025em; margin: 0 0 18px; }
+.lede { font-size: 20px; color: var(--muted); margin: 0 0 28px; }
+.buttons { display: flex; flex-wrap: wrap; gap: 12px; }
+.button { display: inline-block; padding: 12px 20px; border-radius: 10px; font-weight: 600; text-decoration: none; font-size: 16px; border: 1px solid var(--line); color: var(--fg); background: var(--card); }
+.button.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-fg); }
+.shot { display: block; width: 100%; height: auto; border-radius: 14px; border: 1px solid var(--line); box-shadow: 0 12px 40px rgba(0,0,0,.10); background: var(--card); }
+.caption { color: var(--muted); font-size: 14px; margin: 10px 2px 0; }
+section { padding: 64px 0 0; }
+h2 { font-size: 30px; letter-spacing: -0.02em; margin: 0 0 8px; }
+.sub { color: var(--muted); margin: 0 0 28px; max-width: 720px; }
+.grid > * { min-width: 0; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 22px; }
+.card h3 { margin: 0 0 6px; font-size: 18px; }
+.card p { margin: 0; color: var(--muted); font-size: 16px; }
+ol.steps { counter-reset: step; list-style: none; padding: 0; margin: 0; display: grid; gap: 16px; }
+ol.steps li { min-width: 0; counter-increment: step; background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 20px 22px 20px 64px; position: relative; }
+ol.steps li::before { content: counter(step); position: absolute; left: 22px; top: 19px; width: 28px; height: 28px; border-radius: 50%; background: var(--accent); color: var(--accent-fg); font-weight: 700; font-size: 15px; display: grid; place-items: center; }
+ol.steps strong { display: block; margin-bottom: 4px; }
+pre { background: var(--code); border-radius: 10px; padding: 14px 16px; overflow-x: auto; font: 14px/1.5 ui-monospace, SFMono-Regular, Menlo, monospace; margin: 10px 0 0; }
+code { font: 0.9em ui-monospace, SFMono-Regular, Menlo, monospace; }
+.table { overflow-x: auto; background: var(--card); border: 1px solid var(--line); border-radius: 14px; }
+table { border-collapse: collapse; width: 100%; font-size: 15px; min-width: 720px; }
+th, td { text-align: left; padding: 12px 16px; border-bottom: 1px solid var(--line); vertical-align: top; }
+tr:last-child td { border-bottom: 0; }
+th { font-size: 13px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); font-weight: 600; }
+td:first-child { color: var(--muted); white-space: nowrap; }
+td.us { font-weight: 600; }
+.note { color: var(--muted); font-size: 14px; margin: 10px 2px 0; }
+ul.plain { margin: 0; padding-left: 20px; } ul.plain li { margin: 6px 0; }
+footer { margin: 80px 0 0; padding: 28px 0 40px; border-top: 1px solid var(--line); color: var(--muted); font-size: 15px; display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: space-between; }
+footer a { color: var(--muted); }
+@media (max-width: 560px) { nav .links a:not(.gh) { display: none; } .lede { font-size: 18px; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav>
+    <a class="brand" href="/">skoro-stats</a>
+    <div class="links"><a href="#how">How it works</a><a href="#compare">Compared</a><a href="https://demo.skorostats.com">Live demo</a><a class="gh" href="https://github.com/skoroapps-hq/skoro-stats">GitHub</a></div>
+  </nav>
+
+  <header>
+    <h1>Privacy-first app analytics, free on Cloudflare</h1>
+    <p class="lede">See where people drop out of onboarding and which paywalls turn into purchases. Counts such as "paywall shown" or "export failed", never what's in them: no user IDs, no IP addresses, no device fingerprints.</p>
+    <div class="buttons">
+      <a class="button primary" href="https://demo.skorostats.com">Open the live demo</a>
+      <a class="button" href="https://github.com/skoroapps-hq/skoro-stats">View on GitHub</a>
+    </div>
+  </header>
+
+  <a href="https://demo.skorostats.com"><img class="shot" src="/dashboard.jpg" width="1600" height="1600" alt="The dashboard for one app: sessions, first launches, paywalls and purchases with the change against the period before, a sessions chart, sessions by day and the onboarding funnel"></a>
+  <p class="caption">The dashboard for one app. The live demo has the same dashboard with made-up numbers.</p>
+
+  <section>
+    <h2>What you get</h2>
+    <p class="sub">An open-source Swift package, a Kotlin client, and two Cloudflare Workers with one D1 database. MIT licensed.</p>
+    <div class="grid">
+      <div class="card"><h3>See where people drop out</h3><p>The onboarding funnel shows how many sessions reach each step, and the paywall view shows which screens' paywalls turn into purchases.</p></div>
+      <div class="card"><h3>No personal data, even by mistake</h3><p>Each app has a schema of the events, properties and values it may send. Anything else is dropped before it's stored, so free text can't leak.</p></div>
+      <div class="card"><h3>No server, nothing to pay</h3><p>Two Workers and one database, sized to fit Cloudflare's free plan. Your data stays in your own Cloudflare account.</p></div>
+      <div class="card"><h3>Built for apps</h3><p>Purchases, version adoption, days since install, and breakdowns by OS, country and device, plus panels for each app's own events.</p></div>
+    </div>
+  </section>
+
+  <section id="how">
+    <h2>Set up in about 5 minutes</h2>
+    <p class="sub">You need Node 22.5 or newer and a Cloudflare account. The free plan is enough.</p>
+    <ol class="steps">
+      <li><strong>Deploy your instance</strong>It creates the database, deploys both Workers, and prints your endpoint, app keys and dashboard password.
+<pre>git clone https://github.com/skoroapps-hq/skoro-stats && cd skoro-stats/server
+npm install
+npx wrangler login
+npm run setup</pre></li>
+      <li><strong>Describe your app's events</strong>List the events, properties and allowed values in <code>config/apps.js</code>. <code>npm test</code> checks your config fits the free plan, then <code>npm run deploy</code>.</li>
+      <li><strong>Add the client to your app</strong>The Swift package (iOS 16+) or <code>com.skoroapps:skoro-stats</code> from Maven Central.
+<pre>let stats = StatsCollector(enabled: { settings.sharesStatistics })
+stats.sessionStart(daysSinceInstall: daysSinceInstall)
+stats.transport = HTTPStatsTransport(app: "notes", key: "&lt;its key&gt;",
+                                     endpoint: URL(string: "https://&lt;your ingest Worker&gt;/v1/events")!)</pre></li>
+    </ol>
+    <p class="note">Using Claude Code or another coding agent? The <a href="https://github.com/skoroapps-hq/skoro-stats#quickstart-with-an-ai-agent">README has a prompt</a> that sets it all up for your app.</p>
+  </section>
+
+  <section>
+    <h2>Privacy, in plain words</h2>
+    <p class="sub">Each event stores when it arrived, the app, its version, the major OS version, the language, the country, the device type, the paid state, a session id, and the event's allowed properties.</p>
+    <div class="grid">
+      <div class="card"><h3>Sessions can't be linked</h3><p>The session id is random for each launch and never saved on the device, so events can't be tied to a person or a device across launches.</p></div>
+      <div class="card"><h3>No IP addresses kept</h3><p>The address is used only by the rate limiter and isn't stored anywhere.</p></div>
+      <div class="card"><h3>13 months, then gone</h3><p>A daily job deletes events older than 13 months.</p></div>
+    </div>
+  </section>
+
+  <section id="compare">
+    <h2>Compared with</h2>
+    <p class="sub">Pick a hosted service if you don't want to run anything yourself, or if you need retention cohorts, user journeys or a web SDK: skoro-stats has none of those.</p>
+    <div class="table"><table>
+      <thead><tr><th></th><th>skoro-stats</th><th>TelemetryDeck</th><th>Aptabase</th><th>Firebase Analytics</th></tr></thead>
+      <tbody>
+        <tr><td>Cost</td><td class="us">Free, within Cloudflare's free plan</td><td>Free up to 50,000 events a month, then paid</td><td>Free up to 20,000 events a month hosted, then paid; or free on your own server</td><td>Free</td></tr>
+        <tr><td>Where the data lives</td><td class="us">Your Cloudflare account</td><td>Their servers</td><td>Their servers, or yours</td><td>Google's servers</td></tr>
+        <tr><td>Open source</td><td class="us">Everything (MIT)</td><td>The SDKs (MIT), not the server</td><td>Everything (server AGPL, SDKs MIT)</td><td>No: the analytics part is a closed binary</td></tr>
+        <tr><td>You run it</td><td class="us">Yes, about 5 minutes to set up</td><td>No</td><td>No, unless you host it</td><td>No</td></tr>
+      </tbody>
+    </table></div>
+    <p class="note">Prices as of November 2026, from each product's own pages.</p>
+  </section>
+
+  <section>
+    <img class="shot" src="/details.jpg" width="1600" height="1699" loading="lazy" alt="Further down the dashboard, in dark mode: days since install, versions, OS, countries, paid state and devices, then the app's own panels">
+    <p class="caption">Further down: days since install, versions, OS, countries, paid state, devices, and the app's own panels.</p>
+  </section>
+
+  <footer>
+    <span>MIT licensed · Made by the developer of <a href="https://skoroapps.com/code-viewer/">Code Viewer</a></span>
+    <span><a href="https://github.com/skoroapps-hq/skoro-stats">GitHub</a> · <a href="https://demo.skorostats.com">Live demo</a> · This site uses no analytics and no cookies.</span>
+  </footer>
+</div>
+</body>
+</html>
