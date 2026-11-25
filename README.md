@@ -18,7 +18,7 @@ Made by the developer of [Code Viewer](https://apps.apple.com/app/apple-store/id
 
 ![The dashboard for one app: sessions, first launches, paywalls and purchases with the change against the period before, a sessions chart, sessions by day and the onboarding funnel](docs/dashboard.png)
 
-<sub>Made-up numbers from `npm run demo`.</sub>
+**[Try the live demo](https://demo.skorostats.com)**: the real dashboard, with made-up numbers that grow every hour.
 
 | Folder | What |
 |---|---|
@@ -211,8 +211,8 @@ first event arrives it shows how to send a test event.
 
 ![Further down, in dark mode: days since install, versions, OS, countries, paid state and devices, then the app's own panels](docs/dashboard-details.png)
 
-To try it without a Cloudflare account, run `npm run demo` in `server/` and open
-http://localhost:8787. It shows 90 days of made-up data for two apps (`EMPTY=1 npm run demo` shows a fresh install).
+To try it, open the [live demo](https://demo.skorostats.com), or, without a Cloudflare account,
+run `npm run demo` in `server/` and open http://localhost:8787. It shows 90 days of made-up data for two apps (`EMPTY=1 npm run demo` shows a fresh install).
 
 There are two ways to sign in:
 

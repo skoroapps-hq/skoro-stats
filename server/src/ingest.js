@@ -111,9 +111,9 @@ export function clean(event, schema) {
 /// Raw events, and the sessions counted from them, are kept 13 months. Ids grow with time, so
 /// the first id to keep is found by walking from the oldest event and the rest is a range of
 /// ids: only the events that go are read, not the whole table. Sessions go by (app, day),
-/// the start of their key.
-export async function prune(env, now) {
-  const cutoff = now - KEEP_DAYS * 86_400_000;
+/// the start of their key. The demo keeps fewer days.
+export async function prune(env, now, keepDays = KEEP_DAYS) {
+  const cutoff = now - keepDays * 86_400_000;
   const names = Object.keys(apps);
   await env.DB.batch([
     env.DB.prepare("DELETE FROM events WHERE id < (SELECT id FROM events WHERE ts >= ? ORDER BY id LIMIT 1)").bind(cutoff),
