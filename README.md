@@ -4,12 +4,15 @@ Self-hosted, privacy-first usage statistics for iOS and Android apps, on Cloudfl
 plan. You get counts such as "paywall shown" or "export failed", never what's in them. There
 are no user IDs, no IP addresses and no device fingerprints.
 
+- **See where people drop out:** the onboarding funnel shows how many sessions reach each
+  step, and the paywall view shows which screens' paywalls turn into purchases. You know which
+  step or paywall to fix first.
 - **No server to run, nothing to pay:** two Cloudflare Workers and one D1 database, sized to
   fit the free plan.
 - **Allowlisted events:** each app has a schema of the events, properties and values it may
   send, and anything else is dropped at ingest. An app can't send personal data even by mistake.
-- **Built for apps:** onboarding funnels, paywalls, purchases, version adoption, days since
-  install, and panels for each app's own events.
+- **Built for apps:** purchases, version adoption, days since install, breakdowns by OS,
+  country and device, and panels for each app's own events.
 
 Made by the developer of [Code Viewer](https://apps.apple.com/app/apple-store/id756979450?pt=122485603&ct=skorostats&mt=8).
 
@@ -24,9 +27,27 @@ Made by the developer of [Code Viewer](https://apps.apple.com/app/apple-store/id
 | `server/` | the ingest Worker, the dashboard Worker, the migrations |
 | `server/config.example/` | a template for your apps and your Cloudflare setup |
 
-## Quickstart (about 5 minutes)
+## Quickstart with an AI agent
 
-You need Node 22.5 or newer and a Cloudflare account (the free plan is enough).
+You need Node 22.5 or newer and a Cloudflare account (the free plan is enough). Open your
+app's project in Claude Code, or another coding agent that can run commands, and paste:
+
+```text
+Set up skoro-stats (https://github.com/skoroapps-hq/skoro-stats) for this app:
+1. Clone it next to this project and follow its README Quickstart by hand. I'll sign in to
+   Cloudflare in the browser when `npx wrangler login` asks.
+2. Find this app's onboarding steps, paywalls, purchases, and the few actions worth counting.
+   Describe them in server/config/apps.js and server/config/schemas/ with fixed values only,
+   never free text or anything personal. Run `npm test`, then `npm run deploy`.
+3. Add the client to this app (the Swift package, or com.skoroapps:skoro-stats from Maven
+   Central), send the common events from the right places, and add the app's own events.
+   Send only in release builds, and only while a setting for statistics is on.
+4. Tell me the dashboard URL and password, and list every event the app will send.
+```
+
+## Quickstart by hand (about 5 minutes)
+
+The same two needs: Node 22.5 or newer and a Cloudflare account.
 
 ```sh
 git clone https://github.com/skoroapps-hq/skoro-stats && cd skoro-stats/server
@@ -162,6 +183,10 @@ the period before, the onboarding funnel, paywalls, purchases, version adoption,
 install, breakdowns by version, OS, device, country and paid state, and the app's own panels.
 Clicking a day or a value filters every section. It works on a phone too, and until the
 first event arrives it shows how to send a test event.
+
+![The same app filtered to iPhone sessions from the US: two filter chips at the top, and every number and chart limited to them](docs/dashboard-filtered.png)
+
+![Further down, in dark mode: days since install, versions, OS, countries, paid state and devices, then the app's own panels](docs/dashboard-details.png)
 
 <img src="docs/dashboard-phone.png" alt="The dashboard on a phone" width="300">
 

@@ -24,6 +24,13 @@ swift test                             # from the repository root
 cd android && gradle test              # Gradle 9
 ```
 
+## Releases (maintainers)
+
+A release is a tag such as `2.0.3` on `main`. The tag itself is the Swift package release, and
+`.github/workflows/publish-android.yml` tests the Kotlin client and publishes it, signed, to
+Maven Central as `com.skoroapps:skoro-stats`. A version on Maven Central can never be changed or
+deleted, so a fix always gets a new tag; never move a tag.
+
 ## Pull requests
 
 Keep each pull request to one change, with tests. Describe what changes for the people who run

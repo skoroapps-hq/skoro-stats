@@ -29,17 +29,20 @@ h2 { margin: 0 0 10px; font-size: 16px; }
 .muted { color: var(--muted); font-size: 13px; }
 .controls { display: flex; gap: 8px; flex-wrap: wrap; }
 select, button { font: inherit; padding: 6px 10px; border-radius: 8px; border: 1px solid var(--line); background: var(--card); color: var(--fg); }
+select { appearance: none; -webkit-appearance: none; padding-right: 30px; background-image: linear-gradient(45deg, transparent 50%, var(--muted) 50%), linear-gradient(135deg, var(--muted) 50%, transparent 50%); background-position: right 15px center, right 10px center; background-size: 5px 5px; background-repeat: no-repeat; cursor: pointer; }
 .grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
 section { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 16px; min-width: 0; }
 .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; }
 .tile b { display: block; font-size: 26px; font-variant-numeric: tabular-nums; }
 .scroll { overflow: auto; max-height: 384px; }
+.scroll.more { -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 48px), transparent); mask-image: linear-gradient(to bottom, #000 calc(100% - 48px), transparent); }
+#panels td:first-child { white-space: normal; min-width: 7em; }
 /* stacking: bar 0 < its number 1 < pinned day 2 < sticky header 3 < header's day 4 */
 thead th { position: sticky; top: 0; background: var(--card); z-index: 3; }
 /* separate, not collapse: with collapsed borders a sticky header lets scrolled rows show through */
 table { width: 100%; border-collapse: separate; border-spacing: 0; font-variant-numeric: tabular-nums; }
 th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--line); white-space: nowrap; }
-th { color: var(--muted); font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .04em; }
+th { white-space: normal; vertical-align: bottom; color: var(--muted); font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .04em; }
 td.n { text-align: right; }
 .bar { position: relative; }
 .bar span { position: absolute; inset: 3px auto 3px 0; background: var(--bar); border-radius: 4px; z-index: 0; }
@@ -343,11 +346,18 @@ async function load(fresh) {
     (empty.length ? '<section class="nodata"><h2>Nothing in this period</h2><div>' + empty.map((p) => esc(p.title)).join(" · ") + "</div></section>" : "");
   applyFolds();
 }
+// A list taller than its box fades out at the bottom until it's scrolled to the end.
+function markMore(box) {
+  for (const el of box ? [box] : document.querySelectorAll(".scroll"))
+    el.classList.toggle("more", el.scrollHeight - el.scrollTop - el.clientHeight > 2);
+}
+document.addEventListener("scroll", (e) => { if (e.target.classList?.contains("scroll")) markMore(e.target); }, true);
 let folded = new Set(); // section headings folded in this browser
 try { folded = new Set(JSON.parse(localStorage.getItem("folded") || "[]")); } catch {}
 const foldKey = (h2) => h2.firstChild.textContent.trim();
 function applyFolds() {
   for (const h2 of document.querySelectorAll("section > h2")) h2.parentElement.classList.toggle("folded", folded.has(foldKey(h2)));
+  markMore();
 }
 document.querySelector("main").addEventListener("click", (event) => {
   const h2 = event.target.closest("section > h2");
@@ -355,6 +365,7 @@ document.querySelector("main").addEventListener("click", (event) => {
   const key = foldKey(h2), section = h2.parentElement;
   if (folded.has(key)) folded.delete(key); else folded.add(key);
   section.classList.toggle("folded", folded.has(key));
+  for (const el of section.querySelectorAll(".scroll")) markMore(el);
   try { localStorage.setItem("folded", JSON.stringify([...folded])); } catch {}
   // a chart drawn while folded had no width: draw it again
   if (!folded.has(key)) for (const el of section.querySelectorAll(".chart")) if (el._spec) lineChart(el, el._spec);
