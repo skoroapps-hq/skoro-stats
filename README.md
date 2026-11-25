@@ -29,7 +29,7 @@ Made by the developer of Code Viewer.
 You need Node 22.5 or newer and a Cloudflare account (the free plan is enough).
 
 ```sh
-git clone https://github.com/Skoruy/skoro-stats && cd skoro-stats/server
+git clone https://github.com/skoroapps-hq/skoro-stats && cd skoro-stats/server
 npm install
 npx wrangler login
 npm run setup
@@ -92,7 +92,7 @@ repository of its own: `cd server/config && git init`, then push it to a private
 
 ## In the app
 
-Swift Package Manager: `https://github.com/Skoruy/skoro-stats`, from `2.0.1`.
+Swift Package Manager: `https://github.com/skoroapps-hq/skoro-stats`, from `2.0.2`.
 
 ```swift
 import SkoroStats
@@ -118,7 +118,8 @@ Leave out `tier:` for an app with nothing to buy. The package ships a privacy ma
 tracking; product interaction, not linked to the user, used for analytics). Still mention
 these statistics in your privacy policy and your App Store privacy answers.
 
-Android (`com.skoroapps:skoro-stats`), with the same events and buckets:
+Android, from Maven Central (`implementation("com.skoroapps:skoro-stats:2.0.2")`), with the same
+events and buckets:
 
 ```kotlin
 val stats = AppStats(enabled = { settings.sharesStatistics })   // : StatsCollector

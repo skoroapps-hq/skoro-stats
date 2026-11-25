@@ -137,7 +137,7 @@ footer a { color: inherit; }
   </div>
   <div class="grid one-app" id="panels"></div>
   <section class="one-app"><h2>Version adoption <span class="muted" style="font-weight:400">· share of each day’s sessions</span></h2><div class="chart" id="adoption"></div></section>
-  <footer>Anonymous, allowlisted events · <a href="https://github.com/Skoruy/skoro-stats" target="_blank" rel="noopener">skoro-stats</a></footer>
+  <footer>Anonymous, allowlisted events · <a href="https://github.com/skoroapps-hq/skoro-stats" target="_blank" rel="noopener">skoro-stats</a></footer>
 </main>
 <script>
 const INGEST = ${JSON.stringify(ingest || "https://<your ingest Worker>").replace(/</g, "\\u003c")};
