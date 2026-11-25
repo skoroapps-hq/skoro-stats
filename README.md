@@ -176,6 +176,29 @@ paid state, a session id, and the event's name and allowed properties.
   it's stored.
 - **Events older than 13 months** are deleted by a daily job.
 
+## Compared with
+
+| | skoro-stats | TelemetryDeck | Aptabase | Firebase Analytics |
+|---|---|---|---|---|
+| Cost | free, within Cloudflare's free plan | free up to 50,000 events a month, then paid | free up to 20,000 events a month hosted, then paid; or free on your own server | free |
+| Where the data lives | your Cloudflare account | their servers | their servers, or yours | Google's servers |
+| Open source | everything (MIT) | the SDKs | everything (server AGPL, SDKs MIT) | no |
+| You run it | yes, about 5 minutes to set up | no | no, unless you host it | no |
+
+Prices as of November 2026, from each product's own pages.
+
+What's different here:
+
+- **The server enforces what may be stored.** Each app has a schema of allowed events and
+  values, and anything else is dropped at ingest. You don't have to trust that the app sends
+  nothing personal: the server can't store it.
+- **The views are built for paid apps.** The onboarding funnel, paywall conversion by context,
+  purchases, version adoption and days since install come built in, with no reports to set up.
+- **Nothing to pay as you grow,** up to the free-plan limits below.
+
+Pick a hosted service instead if you don't want to run anything yourself, or if you need
+retention cohorts, user journeys or a web SDK: skoro-stats has none of those.
+
 ## The dashboard and its login
 
 The dashboard shows all apps side by side, or one app with a sessions chart, change against
