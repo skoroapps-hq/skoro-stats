@@ -182,7 +182,7 @@ paid state, a session id, and the event's name and allowed properties.
 |---|---|---|---|---|
 | Cost | free, within Cloudflare's free plan | free up to 50,000 events a month | free up to 20,000 events a month hosted, then paid; or free on your own server | free |
 | Where the data lives | your Cloudflare account | their servers | their servers, or yours | Google's servers |
-| Open source | everything (MIT) | the SDKs | everything (server AGPL, SDKs MIT) | no |
+| Open source | everything (MIT) | the SDKs (MIT), not the server | everything (server AGPL, SDKs MIT) | no: the analytics part is a closed binary |
 | You run it | yes, about 5 minutes to set up | no | no, unless you host it | no |
 
 Prices as of November 2026, from each product's own pages.
