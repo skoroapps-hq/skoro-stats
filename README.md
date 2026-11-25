@@ -11,7 +11,7 @@ are no user IDs, no IP addresses and no device fingerprints.
 - **Built for apps:** onboarding funnels, paywalls, purchases, version adoption, days since
   install, and panels for each app's own events.
 
-Made by the developer of Code Viewer.
+Made by the developer of [Code Viewer](https://apps.apple.com/app/apple-store/id756979450?pt=122485603&ct=skorostats&mt=8).
 
 ![The dashboard for one app: sessions, first launches, paywalls and purchases with the change against the period before, a sessions chart, sessions by day and the onboarding funnel](docs/dashboard.png)
 
