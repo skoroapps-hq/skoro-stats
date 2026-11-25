@@ -1,5 +1,5 @@
 # Publishes the Kotlin client for every release tag (the same tag the Swift package uses):
-# to Maven Central as com.skoroapps:skoro-stats, and to GitHub Packages.
+# to Maven Central as com.skoroapps:skoro-stats.
 # Run it by hand on a tag to publish a tag that's already there.
 name: Publish Kotlin client
 on:
@@ -8,7 +8,6 @@ on:
   workflow_dispatch:
 permissions:
   contents: read
-  packages: write
 jobs:
   publish:
     if: github.ref_type == 'tag'
@@ -22,9 +21,8 @@ jobs:
         with: { distribution: temurin, java-version: "17" }
       - uses: gradle/actions/setup-gradle@v4
         with: { gradle-version: "9.5.0" }
-      - run: gradle test publishAllPublicationsToGitHubPackagesRepository publishAndReleaseToMavenCentral -Pversion=${GITHUB_REF_NAME}
+      - run: gradle test publishAndReleaseToMavenCentral -Pversion=${GITHUB_REF_NAME}
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
           ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
           ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.SIGNING_KEY }}

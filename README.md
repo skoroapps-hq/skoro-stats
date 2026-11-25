@@ -163,6 +163,8 @@ install, breakdowns by version, OS, device, country and paid state, and the app'
 Clicking a day or a value filters every section. It works on a phone too, and until the
 first event arrives it shows how to send a test event.
 
+<img src="docs/dashboard-phone.png" alt="The dashboard on a phone" width="300">
+
 To try it without a Cloudflare account, run `npm run demo` in `server/` and open
 http://localhost:8787. It shows 90 days of made-up data for two apps (`EMPTY=1 npm run demo` shows a fresh install).
 

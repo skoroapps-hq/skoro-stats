@@ -48,16 +48,3 @@ mavenPublishing {
         }
     }
 }
-
-// Also GitHub Packages, which the skoroapps apps read from until they move to Maven Central.
-publishing {
-    repositories {
-        maven("https://maven.pkg.github.com/skoroapps-hq/skoro-stats") {
-            name = "GitHubPackages"
-            credentials {
-                username = System.getenv("GITHUB_ACTOR")
-                password = System.getenv("GITHUB_TOKEN")
-            }
-        }
-    }
-}
