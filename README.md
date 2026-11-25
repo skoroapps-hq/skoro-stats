@@ -180,7 +180,7 @@ paid state, a session id, and the event's name and allowed properties.
 
 | | skoro-stats | TelemetryDeck | Aptabase | Firebase Analytics |
 |---|---|---|---|---|
-| Cost | free, within Cloudflare's free plan | free up to 50,000 events a month, then paid | free up to 20,000 events a month hosted, then paid; or free on your own server | free |
+| Cost | free, within Cloudflare's free plan | free up to 50,000 events a month | free up to 20,000 events a month hosted, then paid; or free on your own server | free |
 | Where the data lives | your Cloudflare account | their servers | their servers, or yours | Google's servers |
 | Open source | everything (MIT) | the SDKs | everything (server AGPL, SDKs MIT) | no |
 | You run it | yes, about 5 minutes to set up | no | no, unless you host it | no |
@@ -210,8 +210,6 @@ first event arrives it shows how to send a test event.
 ![The same app filtered to iPhone sessions from the US: two filter chips at the top, and every number and chart limited to them](docs/dashboard-filtered.png)
 
 ![Further down, in dark mode: days since install, versions, OS, countries, paid state and devices, then the app's own panels](docs/dashboard-details.png)
-
-<img src="docs/dashboard-phone.png" alt="The dashboard on a phone" width="300">
 
 To try it without a Cloudflare account, run `npm run demo` in `server/` and open
 http://localhost:8787. It shows 90 days of made-up data for two apps (`EMPTY=1 npm run demo` shows a fresh install).
