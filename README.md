@@ -271,7 +271,7 @@ once `APP_KEYS` is set.
   the apps in `server/test/apps.js`. They also check `config.example/`, and your `config/` when
   it's there.
 - **Swift:** `swift test` from the root.
-- **Kotlin:** `./gradlew test` in `android/` (any Gradle 9).
+- **Kotlin:** `gradle test` in `android/` (any Gradle 9).
 
 Both clients' tests check their common events against `server/schemas/common.json`. See
 [CONTRIBUTING.md](CONTRIBUTING.md).
